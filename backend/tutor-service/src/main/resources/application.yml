@@ -1,0 +1,61 @@
+# tutor-service - configuration. Values in ${...} come from environment variables or the .env file in the project root.
+server:
+  port: ${PORT:8082}
+
+spring:
+  application:
+    name: tutor-service
+  config:
+    # Loads the shared .env file whether the service is started from the project root, backend/ or the module folder.
+    import: "optional:file:.env[.properties],optional:file:../.env[.properties],optional:file:../../.env[.properties]"
+  datasource:
+    url: ${TUTOR_DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${TUTOR_DB_NAME:hometutor_tutor}}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 5
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    table: flyway_history_tutor
+    baseline-on-migrate: true
+    baseline-version: 0
+
+app:
+  database:
+    auto-create: ${DB_AUTO_CREATE:true}
+  seed-demo-data: ${SEED_DEMO_DATA:true}
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+
+jwt:
+  secret: ${JWT_SECRET:}
+  expiration-hours: ${JWT_EXPIRATION_HOURS:10}
+
+notification-service:
+  url: ${NOTIFICATION_SERVICE_URL:http://${NOTIFICATION_SERVICE_HOSTPORT:localhost:8084}}
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+logging:
+  level:
+    org.hibernate.orm.deprecation: error
+    com.netflix.discovery: warn

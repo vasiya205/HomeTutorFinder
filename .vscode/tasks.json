@@ -1,0 +1,454 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build backend",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\build-backend.ps1"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "scripts/build-backend.sh"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "scripts/build-backend.sh"
+        ]
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      }
+    },
+    {
+      "label": "Run eureka-server",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-service.ps1",
+        "-Service",
+        "eureka-server"
+      ],
+      "linux": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/eureka-server/target/eureka-server-1.0.0.jar"
+        ]
+      },
+      "osx": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/eureka-server/target/eureka-server-1.0.0.jar"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "spring-boot",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "Starting \\w+Application|:: Spring Boot ::",
+          "endsPattern": "Started \\w+Application in|APPLICATION FAILED TO START"
+        }
+      },
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run auth-service",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-service.ps1",
+        "-Service",
+        "auth-service"
+      ],
+      "linux": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/auth-service/target/auth-service-1.0.0.jar"
+        ]
+      },
+      "osx": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/auth-service/target/auth-service-1.0.0.jar"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "spring-boot",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "Starting \\w+Application|:: Spring Boot ::",
+          "endsPattern": "Started \\w+Application in|APPLICATION FAILED TO START"
+        }
+      },
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run tutor-service",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-service.ps1",
+        "-Service",
+        "tutor-service"
+      ],
+      "linux": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/tutor-service/target/tutor-service-1.0.0.jar"
+        ]
+      },
+      "osx": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/tutor-service/target/tutor-service-1.0.0.jar"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "spring-boot",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "Starting \\w+Application|:: Spring Boot ::",
+          "endsPattern": "Started \\w+Application in|APPLICATION FAILED TO START"
+        }
+      },
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run booking-service",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-service.ps1",
+        "-Service",
+        "booking-service"
+      ],
+      "linux": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/booking-service/target/booking-service-1.0.0.jar"
+        ]
+      },
+      "osx": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/booking-service/target/booking-service-1.0.0.jar"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "spring-boot",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "Starting \\w+Application|:: Spring Boot ::",
+          "endsPattern": "Started \\w+Application in|APPLICATION FAILED TO START"
+        }
+      },
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run notification-service",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-service.ps1",
+        "-Service",
+        "notification-service"
+      ],
+      "linux": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/notification-service/target/notification-service-1.0.0.jar"
+        ]
+      },
+      "osx": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/notification-service/target/notification-service-1.0.0.jar"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "spring-boot",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "Starting \\w+Application|:: Spring Boot ::",
+          "endsPattern": "Started \\w+Application in|APPLICATION FAILED TO START"
+        }
+      },
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run api-gateway",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-service.ps1",
+        "-Service",
+        "api-gateway"
+      ],
+      "linux": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/api-gateway/target/api-gateway-1.0.0.jar"
+        ]
+      },
+      "osx": {
+        "command": "java",
+        "args": [
+          "-Xmx384m",
+          "-jar",
+          "backend/api-gateway/target/api-gateway-1.0.0.jar"
+        ]
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "spring-boot",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "Starting \\w+Application|:: Spring Boot ::",
+          "endsPattern": "Started \\w+Application in|APPLICATION FAILED TO START"
+        }
+      },
+      "presentation": {
+        "group": "backend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run frontend",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\run-frontend.ps1"
+      ],
+      "linux": {
+        "command": "bash",
+        "args": [
+          "-c",
+          "cd frontend && ([ -d node_modules ] || npm install) && npm run dev"
+        ]
+      },
+      "osx": {
+        "command": "bash",
+        "args": [
+          "-c",
+          "cd frontend && ([ -d node_modules ] || npm install) && npm run dev"
+        ]
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "^\\s*__no_problem_pattern__$"
+        },
+        "background": {
+          "activeBegin": true,
+          "beginsPattern": "vite|npm",
+          "endsPattern": "Local:|ready in"
+        }
+      },
+      "presentation": {
+        "group": "frontend",
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run all services",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Run eureka-server",
+        "Run auth-service",
+        "Run tutor-service",
+        "Run booking-service",
+        "Run notification-service",
+        "Run api-gateway",
+        "Run frontend"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Full App",
+      "detail": "Build the backend, then start all 6 services and the React frontend (http://localhost:5173)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build backend",
+        "Run all services"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Run backend tests",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\test-backend.ps1"
+      ],
+      "linux": {
+        "command": "mvn",
+        "args": [
+          "-f",
+          "backend/pom.xml",
+          "-B",
+          "-ntp",
+          "test"
+        ]
+      },
+      "osx": {
+        "command": "mvn",
+        "args": [
+          "-f",
+          "backend/pom.xml",
+          "-B",
+          "-ntp",
+          "test"
+        ]
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Check setup & health",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\check-setup.ps1"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

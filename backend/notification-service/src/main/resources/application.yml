@@ -1,0 +1,77 @@
+# notification-service - configuration. Values in ${...} come from environment variables or the .env file in the project root.
+server:
+  port: ${PORT:8084}
+
+spring:
+  application:
+    name: notification-service
+  config:
+    # Loads the shared .env file whether the service is started from the project root, backend/ or the module folder.
+    import: "optional:file:.env[.properties],optional:file:../.env[.properties],optional:file:../../.env[.properties]"
+  datasource:
+    url: ${NOTIFICATION_DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${NOTIFICATION_DB_NAME:hometutor_notification}}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: 5
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    table: flyway_history_notification
+    baseline-on-migrate: true
+    baseline-version: 0
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+
+app:
+  database:
+    auto-create: ${DB_AUTO_CREATE:true}
+  seed-demo-data: ${SEED_DEMO_DATA:true}
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+
+jwt:
+  secret: ${JWT_SECRET:}
+  expiration-hours: ${JWT_EXPIRATION_HOURS:10}
+
+mail:
+  # Sender shown in the inbox. Defaults to MAIL_USERNAME (your Gmail address).
+  from-address: ${MAIL_FROM:${MAIL_USERNAME:}}
+  from-name: ${MAIL_FROM_NAME:Home Tutor Finder}
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED:true}
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  health:
+    mail:
+      enabled: false
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+logging:
+  level:
+    org.hibernate.orm.deprecation: error
+    com.netflix.discovery: warn

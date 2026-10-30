@@ -1,0 +1,92 @@
+# One-command deployment of the whole platform:
+#   docker compose up -d --build        ->  open http://localhost:3000
+# Values such as JWT_SECRET, MAIL_* and RAZORPAY_* are read from the .env file.
+name: home-tutor-finder
+
+x-service-env: &service-env
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_USERNAME: postgres
+  DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+  DB_AUTO_CREATE: "true"
+  SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
+  JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+  EUREKA_URL: http://eureka-server:8761/eureka/
+  TUTOR_SERVICE_HOSTPORT: tutor-service:8082
+  NOTIFICATION_SERVICE_HOSTPORT: notification-service:8084
+  FRONTEND_URL: ${PUBLIC_FRONTEND_URL:-http://localhost:3000}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      TZ: Asia/Kolkata
+    ports:
+      - "5433:5432"   # 5433 on the host so it does not clash with a locally installed PostgreSQL
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  eureka-server:
+    build: { context: ./backend, dockerfile: eureka-server/Dockerfile }
+    ports: ["8761:8761"]
+
+  auth-service:
+    build: { context: ./backend, dockerfile: auth-service/Dockerfile }
+    environment: *service-env
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  tutor-service:
+    build: { context: ./backend, dockerfile: tutor-service/Dockerfile }
+    environment: *service-env
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  booking-service:
+    build: { context: ./backend, dockerfile: booking-service/Dockerfile }
+    environment:
+      <<: *service-env
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      PAYMENT_MODE: ${PAYMENT_MODE:-AUTO}
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  notification-service:
+    build: { context: ./backend, dockerfile: notification-service/Dockerfile }
+    environment:
+      <<: *service-env
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-Home Tutor Finder}
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  api-gateway:
+    build: { context: ./backend, dockerfile: api-gateway/Dockerfile }
+    environment:
+      EUREKA_URL: http://eureka-server:8761/eureka/
+      AUTH_SERVICE_HOSTPORT: auth-service:8081
+      TUTOR_SERVICE_HOSTPORT: tutor-service:8082
+      BOOKING_SERVICE_HOSTPORT: booking-service:8083
+      NOTIFICATION_SERVICE_HOSTPORT: notification-service:8084
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:5173
+    ports: ["8080:8080"]
+    depends_on: [auth-service, tutor-service, booking-service, notification-service]
+
+  frontend:
+    build: { context: ./frontend }
+    environment:
+      API_GATEWAY_URL: http://api-gateway:8080
+    ports: ["3000:80"]
+    depends_on: [api-gateway]
+
+volumes:
+  pgdata:

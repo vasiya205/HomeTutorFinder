@@ -1,0 +1,66 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Debug eureka-server",
+      "request": "launch",
+      "mainClass": "com.example.eurekaserver.EurekaServerApplication",
+      "projectName": "eureka-server",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "Debug api-gateway",
+      "request": "launch",
+      "mainClass": "com.example.gateway.ApiGatewayApplication",
+      "projectName": "api-gateway",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "Debug auth-service",
+      "request": "launch",
+      "mainClass": "com.example.authservice.AuthServiceApplication",
+      "projectName": "auth-service",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "Debug tutor-service",
+      "request": "launch",
+      "mainClass": "com.example.tutorservice.TutorServiceApplication",
+      "projectName": "tutor-service",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "Debug booking-service",
+      "request": "launch",
+      "mainClass": "com.example.bookingservice.BookingServiceApplication",
+      "projectName": "booking-service",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "java",
+      "name": "Debug notification-service",
+      "request": "launch",
+      "mainClass": "com.example.notificationservice.NotificationServiceApplication",
+      "projectName": "notification-service",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug all backend services",
+      "configurations": [
+        "Debug eureka-server",
+        "Debug api-gateway",
+        "Debug auth-service",
+        "Debug tutor-service",
+        "Debug booking-service",
+        "Debug notification-service"
+      ]
+    }
+  ]
+}
