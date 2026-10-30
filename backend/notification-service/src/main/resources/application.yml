@@ -1,6 +1,9 @@
 # notification-service - configuration. Values in ${...} come from environment variables or the .env file in the project root.
 server:
-  port: ${PORT:8084}
+  port: ${PORT:10000}
+  eureka:
+  client:
+    enabled: false
 
 spring:
   application:

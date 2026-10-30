@@ -12,12 +12,16 @@
 
   <artifactId>notification-service</artifactId>
   <name>notification-service</name>
-  <description>HTML email notifications (SMTP) with a persistent email log</description>
+  <description>HTML email notifications (Brevo API) with a persistent email log</description>
 
   <dependencies>
     <dependency>
       <groupId>com.example</groupId>
       <artifactId>common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
